@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>odin-library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Library</h1>
+    </header>
+    <main>
+        <div class="main-container">
+            <button class="btn-add" id="addBookBtn">+ Add book</button>
+            <div class="list">
+                <table>
+                    <tr>
+                      <th>Name</th>
+                      <th>Author</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <div class="bookModal">
+        <form action="">
+            <div class="input-1">
+                <label for="name">Book:</label>
+                <input type="text" class="input" id="name" />
+            </div>
+            <div class="input-2">
+                <label for="author">Author:</label>
+                <input type="text" class="input" id="author" />
+            </div>
+            <div class="is-read">
+                <label for="is-read">Have you read it?</label>
+                <input class="checkbox" type="checkbox" id="isRead" />
+            </div>
+            <p class="error-msg" id="errorMsg"></p>
+            <button class="submit-btn" type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="overlay" id="overlay"></div>
+</body>
+</html>
