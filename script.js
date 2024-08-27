@@ -123,7 +123,7 @@ function render() {
     checkLocalStorage();
     tableBody.innerHTML = "";
     library.books.forEach((book) => {
-        if (book.isRead === false) {
+        if (book.isRead === true) {
             bookStatus = "Read"
         } else {
             bookStatus = "Not Read";
