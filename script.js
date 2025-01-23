@@ -79,6 +79,10 @@ const addBookBtn = document.getElementById('addBookBtn');
 const bookModal = document.querySelector('.bookModal');
 const overlay = document.getElementById('overlay');
 const errorMsg = document.getElementById('errorMsg');
+const loggedIn = document.getElementById('loggedIn')
+const loggedOut = document.getElementById('loggedOut')
+const loadingRing = document.getElementById('loadingRing')
+
 
 const openAddBookModal = () => {
     bookForm.reset();
@@ -151,3 +155,31 @@ function changeStatus(book) {
 }
 
 render();
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-analytics.js";
+import { getAuth, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-firestore.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+const auth = getAuth();
+
+const logInBtn = document.getElementById('logInBtn');
+const logOutBtn = document.getElementById('logOutBtn');
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        setupRealTimeListener();
+    } else {
+        if (unsubscribe) unsubscribe()
+        restoreLocal()
+        updateBooksGrid()
+    }
+    setupAccountModal(user)
+    setupNavbar(user)
+})
