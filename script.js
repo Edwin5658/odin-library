@@ -86,21 +86,23 @@ const updateTable = (e) => {
     const currentTarget = e.target.parentNode.parentNode.childNodes[1];
     if (e.target.textContent == "Delete") {
         if (auth.currentUser) {
-            removeBookDB(title);
+            removeBookDB(currentTarget.innerText);
         } else {
             library.deleteBook(currentTarget.innerText);
+            updateLocalStorage();
+            render();
         }
     }
     if (e.target.classList.contains("status-button")) {
         if (auth.currentUser) {
-            toggleBookIsReadDB(book)
+            toggleBookIsReadDB(currentTarget.innerText);
         } else {
             changeStatus(library.getBook(currentTarget.innerText));
+            updateLocalStorage();
+            render();
         }
         
     }
-    updateLocalStorage();
-    render();
 }
 
 const bName = document.getElementById("name");
@@ -177,7 +179,6 @@ const JSONToBook = (book) => {
 }
 
 function render() {
-    checkLocalStorage();
     tableBody.innerHTML = "";
     library.books.forEach((book) => {
         if (book.isRead === true) {
@@ -228,8 +229,6 @@ const setupAccountModal = (user) => {
     }
 }
 
-render();
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -242,6 +241,7 @@ onAuthStateChanged(auth, async (user) => {
         setupRealTimeListener();
     } else {
         if (unsubscribe) unsubscribe();
+        checkLocalStorage();
         render();
     }
     setupAccountModal(user);
