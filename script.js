@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db = getFirestore(app, '');
 let unsubscribe;
 
 let bookStatus = "Read";
@@ -264,7 +264,7 @@ const setupRealTimeListener = () => {
 
     unsubscribe = onSnapshot(booksQuery, (snapshot) => {
         library.books = docsToBooks(snapshot.docs);
-        updateBooksGrid();
+        render();
     }, (error) => {
         console.error("Error fetching books: ", error);
     });
