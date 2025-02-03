@@ -83,12 +83,12 @@ const addBook = (e) => {
 
 const updateTable = (e) => {
     e.preventDefault();
-    const currentTarget = e.target.parentNode.parentNode.childNodes[1];
-    if (e.target.textContent == "Delete") {
+    const bookName = e.target.closest("tr").querySelector("td").textContent.trim();
+    if (e.target.classList.contains("delete")) {
         if (auth.currentUser) {
-            removeBookDB(currentTarget.innerText);
+            removeBookDB(bookName);
         } else {
-            library.deleteBook(currentTarget.innerText);
+            library.deleteBook(bookName);
             updateLocalStorage();
             render();
         }
