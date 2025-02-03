@@ -92,12 +92,12 @@ const updateTable = (e) => {
             updateLocalStorage();
             render();
         }
-    }
-    if (e.target.classList.contains("status-button")) {
+    } else if (e.target.classList.contains("status-button")) {
+        const book = library.getBook(bookName);
         if (auth.currentUser) {
-            toggleBookIsReadDB(library.getBook(bookName));
+            toggleBookIsReadDB(book);
         } else {
-            changeStatus(library.getBook(bookName));
+            changeStatus(book);
             updateLocalStorage();
             render();
         }
