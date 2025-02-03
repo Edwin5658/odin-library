@@ -95,7 +95,7 @@ const updateTable = (e) => {
     }
     if (e.target.classList.contains("status-button")) {
         if (auth.currentUser) {
-            toggleBookIsReadDB(bookName);
+            toggleBookIsReadDB(library.getBook(bookName));
         } else {
             changeStatus(library.getBook(bookName));
             updateLocalStorage();
