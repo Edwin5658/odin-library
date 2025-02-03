@@ -78,17 +78,26 @@ const addBook = (e) => {
         updateLocalStorage();
         render();
     }
-    closeBookModal();
+    closeAllModals();
 }
 
 const updateTable = (e) => {
     e.preventDefault();
     const currentTarget = e.target.parentNode.parentNode.childNodes[1];
     if (e.target.textContent == "Delete") {
-        library.deleteBook(currentTarget.innerText);
+        if (auth.currentUser) {
+            removeBookDB(title);
+        } else {
+            library.deleteBook(currentTarget.innerText);
+        }
     }
     if (e.target.classList.contains("status-button")) {
-        changeStatus(library.getBook(currentTarget.innerText));
+        if (auth.currentUser) {
+            toggleBookIsReadDB(book)
+        } else {
+            changeStatus(library.getBook(currentTarget.innerText));
+        }
+        
     }
     updateLocalStorage();
     render();
