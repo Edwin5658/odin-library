@@ -9,21 +9,22 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="firebaseInit.js"></script>
     <script type="module" src="script.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>Library</h1>
-        <nav>
-            <div class="lds-dual-ring active" id="loadingRing"></div>
-            <div class="logged-out" id="loggedOut">
-              <button class="btn" id="logInBtn">Log in</button>
-            </div>
-            <div class="logged-in" id="loggedIn">
-              <button class="btn" id="accountBtn">Account</button>
-              <button class="btn" id="logOutBtn">Log out</button>
-        </nav>
+        <div class="container">
+            <h1>Library</h1>
+            <nav>
+                <div class="lds-dual-ring active" id="loadingRing"></div>
+                <div class="logged-out" id="loggedOut">
+                <button class="btn" id="logInBtn">Log in</button>
+                </div>
+                <div class="logged-in" id="loggedIn">
+                <button class="btn" id="accountBtn">Account</button>
+                <button class="btn" id="logOutBtn">Log out</button>
+            </nav>
+        </div>
     </header>
     <main>
         <div class="main-container">

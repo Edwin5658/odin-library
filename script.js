@@ -1,3 +1,25 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, query, where, orderBy, onSnapshot, addDoc, doc, getDocs, updateDoc, deleteDoc, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyBxKTjkgMv0Tef9Y2pZZ3ddoRCNfauDPZ0",
+    authDomain: "library-4e436.firebaseapp.com",
+    projectId: "library-4e436",
+    storageBucket: "library-4e436.firebasestorage.app",
+    messagingSenderId: "1007543918375",
+    appId: "1:1007543918375:web:cc581e662259e878011302",
+    measurementId: "G-NHVFWFW6L1"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let unsubscribe;
+
 let bookStatus = "Read";
 
 class Book {
@@ -47,11 +69,15 @@ const addBook = (e) => {
         errorMsg.textContent = 'This book already exists in your library'
         errorMsg.classList.add('active')
         return;
+    }
+    
+    if (auth.currentUser) {
+        addBookDB(newBook);
     } else {
         library.addBook(newBook);
         updateLocalStorage();
+        render();
     }
-    render();
     closeBookModal();
 }
 
@@ -83,7 +109,7 @@ const accountModal = document.getElementById('accountModal');
 const loggedIn = document.getElementById('loggedIn');
 const loggedOut = document.getElementById('loggedOut');
 const loadingRing = document.getElementById('loadingRing');
-
+const accountBtn = document.getElementById('accountBtn');
 
 const openAddBookModal = () => {
     bookForm.reset();
@@ -98,6 +124,23 @@ const closeBookModal = () => {
     errorMsg.textContent = ''
 }
 
+const openAccountModal = () => {
+    accountModal.classList.add('active')
+    overlay.classList.add('active')
+}
+  
+const closeAccountModal = () => {
+    accountModal.classList.remove('active')
+    overlay.classList.remove('active')
+}
+
+const closeAllModals = () => {
+    closeAddBookModal()
+    closeAccountModal()
+}
+  
+
+accountBtn.onclick = openAccountModal;
 addBookBtn.onclick = openAddBookModal;
 overlay.onclick = closeBookModal;
 
@@ -178,21 +221,14 @@ const setupAccountModal = (user) => {
 
 render();
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut} from "firebase/auth";
-import { getFirestore, collection, query, where, orderBy, onSnapshot, addDoc, doc, updateDoc, deleteDoc, serverTimestamp} from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth();
 
 const logInBtn = document.getElementById('logInBtn');
 const logOutBtn = document.getElementById('logOutBtn');
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
         setupRealTimeListener();
     } else {
@@ -203,20 +239,21 @@ onAuthStateChanged(auth, (user) => {
     setupNavbar(user);
 })
 
-const signIn = () => {
+const sign_In = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
+    signInWithPopup(auth, provider).catch((error) => {
+        console.error("Error during sign in:", error);
+    });
 }
   
-const signOut = () => {
-    signOut(auth);
+const sign_Out = () => {
+    signOut(auth).catch((error) => {
+        console.error("Error during sign out:", error);
+    });
 }
   
-logInBtn.onclick = signIn;
-logOutBtn.onclick = signOut;
-
-const db = getFirestore(app);
-let unsubscribe;
+logInBtn.onclick = sign_In;
+logOutBtn.onclick = sign_Out;
 
 const setupRealTimeListener = () => {
     const booksQuery = query(
@@ -254,7 +291,7 @@ const getBookIdDB = async (name) => {
         where('name', '==', name)
     );
     const snapshot = await getDocs(booksQuery);
-    const bookId = snapshot.docs[0].id; 
+    const bookId = snapshot.docs.map((doc) => doc.id).join('');
     return bookId;
 }
 

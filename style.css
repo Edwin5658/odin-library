@@ -2,6 +2,7 @@
     --header-color: rgb(250, 250, 250);
     --background-color: rgb(231, 231, 195);
     --modal-color: rgb(201, 201, 201);
+    --grey: #f0eef1;
     --shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
@@ -41,12 +42,26 @@ header {
     user-select: none;
     background-color: var(--header-color);
     box-shadow: var(--shadow);
-    font-size: 32px;
+}
+
+header .container {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 16px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-start;
-    padding-left: 12%;
-    padding-bottom: 10px;
+}
+
+.logged-in,
+.logged-out {
+  display: none;
+}
+
+.logged-in.active,
+.logged-out.active {
+  display: flex;
+  gap: 20px;
 }
 
 main {
@@ -72,6 +87,13 @@ button {
 
 button:hover {
     filter: brightness(90%);
+}
+
+.btn {
+    padding: 15px 15px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 550;
 }
 
 .btn-add {
@@ -217,6 +239,26 @@ form button {
 .overlay.active {
     display: block;
 }
+
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--grey);
+  text-align: center;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 0.2s ease-in-out;
+}
+
+.modal.active {
+  transform: translate(-50%, -50%) scale(1);
+}
+
 
 .logged-in,
 .logged-out {
