@@ -117,7 +117,7 @@ const openAddBookModal = () => {
     overlay.classList.add('active');
 }
 
-const closeBookModal = () => {
+const closeAddBookModal = () => {
     bookModal.classList.remove('active')
     overlay.classList.remove('active')
     errorMsg.classList.remove('active')
@@ -142,7 +142,7 @@ const closeAllModals = () => {
 
 accountBtn.onclick = openAccountModal;
 addBookBtn.onclick = openAddBookModal;
-overlay.onclick = closeBookModal;
+overlay.onclick = closeAllModals;
 
 const library = new Library();
 
